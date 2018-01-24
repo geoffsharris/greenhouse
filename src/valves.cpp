@@ -10,10 +10,10 @@ int input_valve2_closed = D5; // valve 2 open when low
 int input_valve2_open = D6; // valve 1 closed when low
 
 //setup for program input pins to check status of valves
-int position1_valve1; // true = position1, false = running or position 2
-int position2_valve1; // true = position2, false = running or position 1
-int position1_valve2; // true = position1, false = running or position 2
-int position2_valve2; // true = position2, false = running or position 1
+int fertilizer_status = 0; // true = position1, false = running or position 2
+int RO_status = 0; // true = position2, false = running or position 1
+//int position1_valve2; // true = position1, false = running or position 2
+//int position2_valve2; // true = position2, false = running or position 1
 
 Timer relay1_timer(15000, relays_off);
 Timer relay2_timer(15000, relays_off);
@@ -32,61 +32,69 @@ void setup_pins_valves()
         digitalWrite(relay_valve2, HIGH);
         digitalWrite(relay_power, HIGH);
 
-        Particle.function("water", run_valve1);
-        Particle.function("fertilizer", run_valve2);
+        Particle.function("command", message);
+        //Particle.function("fertilizer", fertilizer_valve);
+        valves(RO_status,fertilizer_status);
     }
 
-int run_valve1(String command)
+int message(String command)
 {
-  if(command == "RO")
-  {
 
-    valve1(0);
-    return 1;
-  }
-  else if(command == "TAP")
+  if(command == "RO=on")
   {
-    valve1(1);
-    return 1;
+    RO_status = 0;
+    //valve1(0);
+  }
+  else if(command == "RO=off")
+  {
+    RO_status = 1;
+    //valve1(1);
+  }
+  else if(command == "Fertilizer=on")
+  {
+    fertilizer_status = 0;
+    //valve2(0);
+  }
+  else if(command == "Fertilizer=off")
+  {
+    fertilizer_status = 1;
+    //valve2(1);
   }
   else return -1;
-}
+  valves(RO_status,fertilizer_status);
+  return 1;
 
-int run_valve2(String command)
-{
-  if(command == "on")
-  {
-
-    valve2(0);
-    return 1;
-  }
-  else if(command == "off")
-  {
-    valve2(1);
-    return 1;
-  }
-  else return -1;
 }
 
 
-void valve1(int command)
+void valves(int fertilizer,int RO)
 {
-    if (command == 0)
+    if (fertilizer == 0)
     {
         digitalWrite(relay_valve1, LOW);
-        digitalWrite(relay_power, LOW);
-        relay1_timer.start();
     }
-    else if (command == 1)
+    else if (fertilizer == 1)
     {
         digitalWrite(relay_valve1, HIGH);
-        digitalWrite(relay_power, LOW);
-        relay1_timer.start();
     }
     else
     {
         //log error TBD
     }
+    if (RO == 0)
+    {
+        digitalWrite(relay_valve2, LOW);
+    }
+    else if (RO == 1)
+    {
+        digitalWrite(relay_valve2, HIGH);
+    }
+    else
+    {
+        //log error TBD
+    }
+    digitalWrite(relay_power, LOW);
+    relay1_timer.start();
 
 }
 
