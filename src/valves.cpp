@@ -1,6 +1,7 @@
 # include "valves.h"
 # include <application.h>
 
+// set pins for valve control
 int relay_power = D0; // used to allow valves to move, controls power to valve relays
 int relay_fertilizer = D1; // high = RO water, low = tap water
 int relay_RO = D2; // high = fertilizer on, low = fertilizer off
@@ -9,12 +10,13 @@ int input_ferlizier_off = D4; // valve 1 closed when low
 int input_RO_on = D5; // valve 2 open when low
 int input_RO_off = D6; // valve 1 closed when low
 
-//setup for program input pins to check status of valves
-int fertilizer_status = 0; // true = position1, false = running or position 2
-int RO_status = 0; // true = position2, false = running or position 1
+// initialize variables for
+int fertilizer_status = 0; // 0 = on, 1 = off
+int RO_status = 0; // 0 = on, 1 = off
 
 Timer relay_timer(15000, relays_off);
 
+//setup for program input pins to check status of valves
 void setup_pins_valves()
     {
         pinMode(relay_power, OUTPUT);
@@ -29,7 +31,7 @@ void setup_pins_valves()
         digitalWrite(relay_power, HIGH);
 
         Particle.function("command", message);
-        valves(RO_status,fertilizer_status); // call function to set valves to startup position
+        valves(fertilizer_status, RO_status); // call function to set valves to startup position
     }
 
 int message(String command)
