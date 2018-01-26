@@ -1,11 +1,11 @@
 #ifndef VENT_H
 #define VENT_H
-//#include <application.h>
+#include <application.h>
 class Vent
 {
  public:
  // constructors
- void ventInit();
+ //void ventInit();
 
  // methods
  void setTarget(int targetPosition);
@@ -21,6 +21,9 @@ class Vent
 
 };
 
-//extern Vent vent;
+int messageVent(String command);
+void setupVent();
+extern Vent roofVent;
+extern Vent sideVent;
 
 #endif

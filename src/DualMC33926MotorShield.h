@@ -1,5 +1,5 @@
-#ifndef DualMC33926MotorShield_h
-#define DualMC33926MotorShield_h
+#ifndef DUALMC33926MOTORSHIELD_H
+#define DUALMC33926MOTORSHIELD_H
 
 #include "application.h"
 
@@ -15,7 +15,7 @@ class DualMC33926MotorShield
     // PUBLIC METHODS
     void init(); // Initialize TIMER 1, set the PWM to 20kHZ.
     void setM1Speed(int speed); // Set speed for M1.
-    void setM2Speed(int speed); // Set speed for M2.
+    //void setM2Speed(int speed); // Set speed for M2.
     void setSpeeds(int m1Speed/*, int m2Speed*/); // Set speed for both M1 and M2.
     float getM1CurrentMilliamps(); // Get current reading for M1.
     //float getM2CurrentMilliamps(); // Get current reading for M2.

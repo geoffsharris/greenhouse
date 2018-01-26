@@ -30,11 +30,11 @@ void setup_pins_valves()
         digitalWrite(relay_RO, HIGH);
         digitalWrite(relay_power, HIGH);
 
-        Particle.function("command", message);
+        Particle.function("command", messageValves);
         valves(fertilizer_status, RO_status); // call function to set valves to startup position
     }
 
-int message(String command)
+int messageValves(String command)
 {
 
   if(command == "RO=on")
@@ -118,11 +118,11 @@ void relays_off()
         }
         if (_RO_on == LOW && _RO_off == HIGH)
         {
-            Particle.publish("message", "fertilizer on");
+            Particle.publish("message", "RO on");
         }
         else if (_RO_on == HIGH && _RO_off == LOW)
         {
-            Particle.publish("message", "fertilizer off");
+            Particle.publish("message", "RO off");
         }
         else
         {

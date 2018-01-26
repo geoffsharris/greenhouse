@@ -142,4 +142,4 @@ void DualMC33926MotorShield::disable()
 }
 
 
- DualMC33926MotorShield motor = DualMC33926MotorShield(); // make instance "motor" to be used in program
+DualMC33926MotorShield motor = DualMC33926MotorShield(); // make instance "motor" to be used in program

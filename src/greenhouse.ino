@@ -11,12 +11,14 @@
 
  SYSTEM_THREAD(ENABLED);
  STARTUP(WiFi.selectAntenna(ANT_INTERNAL));
- Vent roofVent;
- Vent sideVent;
+ //Vent roofVent; now instantiated in header
+ //Vent sideVent;
+ //DualMC33926MotorShield motor = DualMC33926MotorShield(); now instantiated in header
 
  void setup() {
 
  setup_pins_valves();
+ setupVent();
 
  }
 
