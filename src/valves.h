@@ -2,8 +2,8 @@
 #define VALVES_H
 #include <application.h>
 
-void setup_pins_valves();
+void setupPinsValves();
 int messageValves(String command);
 void valves(int fertilizer,int RO);
-void relays_off();
+void relaysOff();
 #endif
