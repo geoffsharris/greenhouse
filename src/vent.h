@@ -28,6 +28,7 @@ int messageVent(String command);
 void setupVent();
 void indigoWatchdog();
 void positionCounter();
+void delayedVentOff();
 extern Vent roofVent;
 extern Vent sideVent;
 

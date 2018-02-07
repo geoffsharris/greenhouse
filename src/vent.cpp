@@ -12,6 +12,7 @@ extern int geoff;
 
 Timer ventRunTimer(1000, positionCounter);
 Timer indigoTimer(600000,indigoWatchdog);
+Timer ventDelayTimer(10000, delayedVentOff);
 
  Vent :: Vent()
 {
@@ -61,17 +62,18 @@ void Vent :: runVentMotor(int ventID, int currentPosition, int targetPosition)
     }
   else if (direction == 0)
     {
-      if (currentPosition != 0 || currentPosition != 6)
+      if (currentPosition == 1 || currentPosition == 6)
       {
-        motor.setM1Speed(0); // stop motor
+        ventDelayTimer.start();
+        //motor.setM1Speed(0); // stop motor
         motorFlag = 0;
         ventRunTimer.reset();
         ventRunTimer.stop();
-        Particle.publish("log","roofVent motor stop");
+        Particle.publish("log","roofVent motor stop delay");
       }
-      else
+      else if (currentPosition > 1 && currentPosition < 6)
       {
-
+        //ventDelayTimer.start();
         motor.setM1Speed(0); // stop motor
         motorFlag = 0;
         ventRunTimer.reset();
@@ -119,7 +121,7 @@ void setupVent()
   indigoTimer.start(); // timer start to make sure indigo data is loaded at least every 10 minutes
 }
 
-int messageVent(String passedTarget) // used to pass message from Inigo and set vent position
+int messageVent(String passedTarget) // used to pass message from Indigo and set vent position
 {
     // Indigo should pass roof or side vent parameters in
     // sideVent=x, roofVent=y format
@@ -231,4 +233,12 @@ void positionCounter()
   }
   Particle.publish("motor is running", String(secondCounter));
   geoff = roofVent.current();
+}
+
+void delayedVentOff()
+{
+  motor.setM1Speed(0);
+  motorFlag = 0;
+  ventDelayTimer.reset();
+  ventDelayTimer.stop(); // stop motor
 }

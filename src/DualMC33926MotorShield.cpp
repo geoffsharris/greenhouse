@@ -9,8 +9,8 @@ DualMC33926MotorShield::DualMC33926MotorShield() // called to set up pin map for
 {
   //Default Pin map these should be set differently for the core vs. photon
   _EN = A2;
-  _M1IN1 = D6; // PWM
-  _M1IN2 = D7; // PWM
+  _M1IN1 = A4; // PWM
+  _M1IN2 = A5; // PWM
   //_M2IN1 = D2; // PWM
   //_M2IN2 = D3; // PWM
   _nSF = A1;
@@ -67,11 +67,15 @@ void DualMC33926MotorShield::setM1Speed(int speed)
   {
     analogWrite(_M1IN2,0);
     analogWrite(_M1IN1,speed);
+    //digitalWrite(_M1IN2,LOW);
+    //digitalWrite(_M1IN1, HIGH);
   }
   else
   {
     analogWrite(_M1IN1,0);
     analogWrite(_M1IN2,speed);
+    //digitalWrite(_M1IN2,HIGH);
+    //digitalWrite(_M1IN1, LOW);
   }
 }
 

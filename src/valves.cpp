@@ -13,6 +13,8 @@ int input_RO_off = D6; // valve 1 closed when low
 // initialize variables for
 int fertilizerStatus = 0; // 0 = on, 1 = off
 int ROStatus = 0; // 0 = on, 1 = off
+int fertilizerReply = 0;
+int ROReply = 0;
 
 Timer relayTimer(15000, relaysOff);
 
@@ -31,6 +33,8 @@ void setupPinsValves()
   digitalWrite(relayPower, HIGH);
   // set up function called by Indigo to control valves
   Particle.function("valves", messageValves);
+  Particle.variable("fertPosit", fertilizerReply);
+  Particle.variable("ROPosit", ROReply);
   valves(fertilizerStatus, ROStatus); // call function to set valves to startup position
 }
 
@@ -118,10 +122,12 @@ void relaysOff()
     if (_fertilizer_on == LOW && _fertilizer_off == HIGH)
     {
         Particle.publish("message", "Fertilizer on");
+        fertilizerReply = 1;
     }
     else if (_fertilizer_on == HIGH && _fertilizer_off == LOW)
     {
         Particle.publish("message", "Fertilizer off");
+        fertilizerReply = 0;
     }
     else
     {
@@ -130,10 +136,12 @@ void relaysOff()
     if (_RO_on == LOW && _RO_off == HIGH)
     {
         Particle.publish("message", "RO on");
+        ROReply = 1;
     }
     else if (_RO_on == HIGH && _RO_off == LOW)
     {
         Particle.publish("message", "RO off");
+        ROReply = 0;
     }
     else
     {

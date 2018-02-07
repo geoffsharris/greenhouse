@@ -21,11 +21,12 @@ void setup()
  {
    setupPinsValves();
    setupVent();
+   motor.init();
    setupLogic();
    Time.zone(-8);
  }
 
 void loop()
 {
-  //checkLogic();
+
 }
