@@ -27,7 +27,7 @@ void setupPinsValves()
   pinMode(input_ferlizier_on, INPUT_PULLDOWN);
   pinMode(input_ferlizier_off, INPUT_PULLDOWN);
   pinMode(input_RO_on, INPUT_PULLDOWN);
-  pinMode(input_RO_off, INPUT_PULLDown);
+  pinMode(input_RO_off, INPUT_PULLDOWN);
   digitalWrite(relayFertilizer, HIGH);
   digitalWrite(relayRO, HIGH);
   digitalWrite(relayPower, HIGH);
