@@ -3,6 +3,7 @@
 #include <application.h>
 
 void setupWaterMeter();
-void waterMeterCounter();
+void waterMeterCounterFlag();
 int waterMeterCounterReset(String command);
+void debounceWaterMeter();
 #endif

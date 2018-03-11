@@ -24,10 +24,10 @@ void setupPinsValves()
   pinMode(relayPower, OUTPUT);
   pinMode(relayFertilizer, OUTPUT);
   pinMode(relayRO, OUTPUT);
-  pinMode(input_ferlizier_on, INPUT_PULLUP);
-  pinMode(input_ferlizier_off, INPUT_PULLUP);
-  pinMode(input_RO_on, INPUT_PULLUP);
-  pinMode(input_RO_off, INPUT_PULLUP);
+  pinMode(input_ferlizier_on, INPUT_PULLDOWN);
+  pinMode(input_ferlizier_off, INPUT_PULLDOWN);
+  pinMode(input_RO_on, INPUT_PULLDOWN);
+  pinMode(input_RO_off, INPUT_PULLDOWN);
   digitalWrite(relayFertilizer, HIGH);
   digitalWrite(relayRO, HIGH);
   digitalWrite(relayPower, HIGH);
@@ -119,12 +119,12 @@ void relaysOff()
     int _fertilizer_off = digitalRead(input_ferlizier_off);
     int _RO_on = digitalRead(input_RO_on);
     int _RO_off = digitalRead(input_RO_off);
-    if (_fertilizer_on == LOW && _fertilizer_off == HIGH)
+    if (_fertilizer_on == HIGH && _fertilizer_off == LOW)
     {
         Particle.publish("message", "Fertilizer on");
         fertilizerReply = 1;
     }
-    else if (_fertilizer_on == HIGH && _fertilizer_off == LOW)
+    else if (_fertilizer_on == LOW && _fertilizer_off == HIGH)
     {
         Particle.publish("message", "Fertilizer off");
         fertilizerReply = 0;
@@ -133,12 +133,12 @@ void relaysOff()
     {
         Particle.publish("message", "failed");
     }
-    if (_RO_on == LOW && _RO_off == HIGH)
+    if (_RO_on == HIGH && _RO_off == LOW)
     {
         Particle.publish("message", "RO on");
         ROReply = 1;
     }
-    else if (_RO_on == HIGH && _RO_off == LOW)
+    else if (_RO_on == LOW && _RO_off == HIGH)
     {
         Particle.publish("message", "RO off");
         ROReply = 0;

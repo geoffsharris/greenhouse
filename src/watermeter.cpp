@@ -3,22 +3,36 @@
 
 retained int waterMeterCount = 0;
 int waterMeterPin = D7;
+int waterMeterInteruptFlag = 0;
+Timer debounceWaterMeterTimer(100, debounceWaterMeter);
 
 void setupWaterMeter()
 {
-   pinMode(waterMeterPin, INPUT_PULLUP);
-   attachInterrupt(waterMeterPin, waterMeterCounter, CHANGE);
+   pinMode(waterMeterPin, INPUT_PULLDOWN);
+   attachInterrupt(waterMeterPin, waterMeterCounterFlag, RISING);
    Particle.variable("H2Ocount", waterMeterCount);
    Particle.function("H2Oreset", waterMeterCounterReset);
 }
 
-void waterMeterCounter()
+void waterMeterCounterFlag()
 {
-  waterMeterCount ++;
+ waterMeterInteruptFlag = 1;
 }
 
 int waterMeterCounterReset(String command)
 {
   waterMeterCount = 0;
   return 1;
+}
+
+void debounceWaterMeter()
+{
+ int val = digitalRead(waterMeterPin);
+ if (val == HIGH)
+ {
+   waterMeterCount ++;
+   debounceWaterMeterTimer.reset();
+   debounceWaterMeterTimer.stop();
+ }
+
 }

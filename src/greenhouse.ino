@@ -16,6 +16,9 @@ STARTUP(WiFi.selectAntenna(ANT_INTERNAL));
 //Vent roofVent; now instantiated in header
 //Vent sideVent; now instantiated in header
 //DualMC33926MotorShield motor = DualMC33926MotorShield(); now instantiated in header
+extern int waterMeterInteruptFlag;
+extern Timer debounceWaterMeterTimer;
+extern int waterMeterInteruptFlag;
 
 void setup()
  {
@@ -30,11 +33,9 @@ void setup()
 
 void loop()
 {
-
+  if (waterMeterInteruptFlag == 1)
+  {
+    debounceWaterMeterTimer.start();
+    waterMeterInteruptFlag = 0;
+  }
 }
-
-/*int geofftest(String command)
-{
-  return 1;
-}
-*/
