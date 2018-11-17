@@ -10,13 +10,26 @@ int input_ferlizier_off = D4; // valve 1 closed when low
 int input_RO_on = D5; // valve 2 open when low
 int input_RO_off = D6; // valve 1 closed when low
 
+// attach interupts
+attachInterrupt(input_ferlizier_on, fertilizerOnFlag, RISING);
+attachInterrupt(input_ferlizier_off, fertilizerOffFlag, RISING);
+attachInterrupt(input_RO_on, ROOnFlag, RISING);
+attachInterrupt(input_RO_off, ROOffFlagFlag, RISING);
+
 // initialize variables for
 int fertilizerStatus = 0; // 0 = on, 1 = off
 int ROStatus = 0; // 0 = on, 1 = off
 int fertilizerReply = 0;
 int ROReply = 0;
+int ROValveOnInteruptFlag = 0;
+int ROValveOffInteruptFlag = 0;
+int FertilizerValveOnInteruptFlag = 0;
+int FertilizerValveOffInteruptFlag = 0;
+
 
 Timer relayTimer(15000, relaysOff);
+Timer debounceROValveTimer(100, debounceROValve);
+Timer debounceFertValveTimer(100, debounceFertValve);
 
 //setup for program input pins to check status of valves
 void setupPinsValves()
@@ -149,4 +162,58 @@ void relaysOff()
     }
     relayTimer.reset();
     relayTimer.stop();
+}
+
+void fertilizerOnFlag()
+{
+ FertilizerValveOnInteruptFlag = 1;
+}
+
+void fertilizerOffFlag()
+{
+ FertilizerValveOffInteruptFlag = 1;
+}
+
+void ROOnFlag()
+{
+ ROValveOnInteruptFlagg = 1;
+}
+
+void ROOffFlag()
+{
+ ROValveOffInteruptFlag = 1;
+}
+
+void debounceROValve()
+{
+ int ROOnVal = digitalRead(input_RO_on);
+ int ROOffVal = digitalRead(input_RO_off);
+
+ if (ROOnVal == HIGH && ROOffVal == LOW)
+ {
+   Particle.publish("ROValve", "on");
+ }
+ if (ROOnVal == LOW && ROOffVal == HIGH)
+ {
+   Particle.publish("ROValve", "off");
+ }
+ debounceROValveTimer.reset();
+ debounceROValveTimer.stop();
+}
+
+void debounceFertValve()
+{
+ int FertOnVal = digitalRead(input_ferlizier_on);
+ int FertOffVal = digitalRead(input_ferlizier_off);
+
+ if (FertOnVal == HIGH && FertOffVal == LOW)
+ {
+   Particle.publish("FertValve", "on");
+ }
+ if (FertOnVal == LOW && FertOffVal == HIGH)
+ {
+   Particle.publish("FertValve", "off");
+ }
+ debounceFertValveTimer.reset();
+ debounceFertValveTimer.stop();
 }

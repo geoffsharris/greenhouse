@@ -34,5 +34,4 @@ void debounceWaterMeter()
    debounceWaterMeterTimer.reset();
    debounceWaterMeterTimer.stop();
  }
-
 }

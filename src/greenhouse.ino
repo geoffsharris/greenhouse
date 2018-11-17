@@ -38,4 +38,18 @@ void loop()
     debounceWaterMeterTimer.start();
     waterMeterInteruptFlag = 0;
   }
+
+  if (ROValveOnInteruptFlag == 1 || ROValveOffInteruptFlag == 1)
+  {
+    debounceROValveTimer.start();
+    ROValveOnInteruptFlag = 0;
+    ROValveOffInteruptFlag = 0;
+  }
+
+  if (FertilizerValveOnInteruptFlag == 1 || FertilizerValveOffInteruptFlag == 1)
+  {
+    debounceFertValveTimer.start();
+    FertilizerValveOnInteruptFlag = 0;
+    FertilizerValveOffInteruptFlag = 0;
+  }
 }
