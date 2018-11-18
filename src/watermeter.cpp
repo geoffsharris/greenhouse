@@ -31,6 +31,7 @@ void debounceWaterMeter()
  if (val == HIGH)
  {
    waterMeterCount ++;
+   Particle.publish("ValveRO", "off");
    debounceWaterMeterTimer.reset();
    debounceWaterMeterTimer.stop();
  }

@@ -16,9 +16,16 @@ STARTUP(WiFi.selectAntenna(ANT_INTERNAL));
 //Vent roofVent; now instantiated in header
 //Vent sideVent; now instantiated in header
 //DualMC33926MotorShield motor = DualMC33926MotorShield(); now instantiated in header
-extern int waterMeterInteruptFlag;
+
 extern Timer debounceWaterMeterTimer;
 extern int waterMeterInteruptFlag;
+extern Timer debounceFertValveTimer;
+extern Timer debounceROValveTimer;
+extern int ROValveOnInteruptFlag;
+extern int ROValveOffInteruptFlag;
+extern int FertilizerValveOnInteruptFlag;
+extern int FertilizerValveOffInteruptFlag;
+
 
 void setup()
  {
@@ -52,4 +59,5 @@ void loop()
     FertilizerValveOnInteruptFlag = 0;
     FertilizerValveOffInteruptFlag = 0;
   }
+
 }

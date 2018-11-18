@@ -10,12 +10,6 @@ int input_ferlizier_off = D4; // valve 1 closed when low
 int input_RO_on = D5; // valve 2 open when low
 int input_RO_off = D6; // valve 1 closed when low
 
-// attach interupts
-attachInterrupt(input_ferlizier_on, fertilizerOnFlag, RISING);
-attachInterrupt(input_ferlizier_off, fertilizerOffFlag, RISING);
-attachInterrupt(input_RO_on, ROOnFlag, RISING);
-attachInterrupt(input_RO_off, ROOffFlagFlag, RISING);
-
 // initialize variables for
 int fertilizerStatus = 0; // 0 = on, 1 = off
 int ROStatus = 0; // 0 = on, 1 = off
@@ -25,7 +19,6 @@ int ROValveOnInteruptFlag = 0;
 int ROValveOffInteruptFlag = 0;
 int FertilizerValveOnInteruptFlag = 0;
 int FertilizerValveOffInteruptFlag = 0;
-
 
 Timer relayTimer(15000, relaysOff);
 Timer debounceROValveTimer(100, debounceROValve);
@@ -44,6 +37,13 @@ void setupPinsValves()
   digitalWrite(relayFertilizer, HIGH);
   digitalWrite(relayRO, HIGH);
   digitalWrite(relayPower, HIGH);
+
+  // attach interupts
+  attachInterrupt(input_ferlizier_on, fertilizerOnFlag, RISING);
+  attachInterrupt(input_ferlizier_off, fertilizerOffFlag, RISING);
+  attachInterrupt(input_RO_on, ROOnFlag, RISING);
+  attachInterrupt(input_RO_off, ROOffFlag, RISING);
+
   // set up function called by Indigo to control valves
   Particle.function("valves", messageValves);
   Particle.variable("fertPosit", fertilizerReply);
@@ -176,7 +176,7 @@ void fertilizerOffFlag()
 
 void ROOnFlag()
 {
- ROValveOnInteruptFlagg = 1;
+ ROValveOnInteruptFlag = 1;
 }
 
 void ROOffFlag()
@@ -191,11 +191,11 @@ void debounceROValve()
 
  if (ROOnVal == HIGH && ROOffVal == LOW)
  {
-   Particle.publish("ROValve", "on");
+   Particle.publish("ValveRO", "on");
  }
  if (ROOnVal == LOW && ROOffVal == HIGH)
  {
-   Particle.publish("ROValve", "off");
+   Particle.publish("ValveRO", "off");
  }
  debounceROValveTimer.reset();
  debounceROValveTimer.stop();
@@ -208,11 +208,11 @@ void debounceFertValve()
 
  if (FertOnVal == HIGH && FertOffVal == LOW)
  {
-   Particle.publish("FertValve", "on");
+   Particle.publish("ValveFert", "on");
  }
  if (FertOnVal == LOW && FertOffVal == HIGH)
  {
-   Particle.publish("FertValve", "off");
+   Particle.publish("ValveFert", "off");
  }
  debounceFertValveTimer.reset();
  debounceFertValveTimer.stop();

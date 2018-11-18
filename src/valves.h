@@ -6,10 +6,10 @@ void setupPinsValves();
 int messageValves(String command);
 void valves(int fertilizer,int RO);
 void relaysOff();
-void ROValveOnInteruptFlag();
-void ROValveOffInteruptFlag();
-void FertilizerValveOnInteruptFlag();
-void FertilizerValveOffInteruptFlag();
+void fertilizerOnFlag();
+void fertilizerOffFlag();
+void ROOnFlag();
+void ROOffFlag();
 void debounceROValve();
 void debounceFertValve();
 #endif
